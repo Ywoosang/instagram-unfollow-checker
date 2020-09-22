@@ -4,21 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결과 페이지</title>
-
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='../static/index.css')}}">  -->
+    <link rel="stylesheet" href="../static/index.css"> 
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ranchers&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Grandstander:wght@600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Grandstander:wght@600&display=swap');
+ 
+        body{
+            background-attachment: fixed;
+        }
+        .container{
+            width :100%;
+            
+            text-align:center;
+        }
+        .notice{
+            font-family: 'Black Han Sans', sans-serif;
+            color:bisque;
+            display : inline-block;
+            margin:0 auto;
+            overflow: hidden;
+            width : 40% ;
+            height: 30px;
+            font-size: 30px;
+            text-align: center;
+            margin:0;
+            padding:2px;
+            
+        }
+        .box{
+            font-size:30px;
+            display : inline-block;
+            overflow: hidden;
+            width : 40% ;
+            height: 60px;
+            background-color: white;
+            border : 3px solid black;
+            border-radius: 15px;
+            margin: 0px 15px 15px 15px;
+        }
+    </style>
 </head>
-<body>
-<ul>
-    <li> 
-   {% for i in IdList %}
-    <p><h3>{{ i }}</h3></p> 
-    {% endfor %}
-    </li>
+<body> 
+<h1 class="notice">UnFollowerId</h1>
+<h1 class="notice">UnFollowerName</h1>
+{% for i,j in ziplist %} 
+<div class="container">
      
-         
+    <div class="box"><a>{{ i }}</a></div>
+   
+    
      
-</ul>
-{% for i in NameList %}
-        <p><h3>{{ i }}</h3></p> 
-        {% endfor %}
+    <div class="box"><a>{{ j }}</a></div>
+</div>
+{% endfor %}
 </body>
 </html>
