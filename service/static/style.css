@@ -1,0 +1,15 @@
+.logo{
+    display:block;
+    color: transparent;
+    width :67px;
+    height:65px;
+    margin : 0 auto ; 
+    padding:0;
+    border-radius: 11px;
+    background-color: white;
+    background-image : url("../static/img/pngwing.com.png");
+    background-position: -8px -8px;
+    background-repeat: no-repeat;
+    background-size: 82px 80px;
+    /* background-image: url({{ url_for('static', filename = '../static/img/pngwing.com.png')}}); */
+}
