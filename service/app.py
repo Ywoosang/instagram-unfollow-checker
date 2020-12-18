@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,url_for,redirect,Blueprint,abort
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup 
@@ -9,9 +9,27 @@ from selenium.common.exceptions import TimeoutException
 
 app = Flask(__name__, static_url_path="/static")
 
+
+
+
+vue_front_end = Blueprint('vue_front_end ', 'vue_front_end ', template_folder='templates/vue_template')
+
+
+@vue_front_end.route('/vue')
+def get_vue():
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        abort(404)
+
+app.register_blueprint(vue_front_end)
+
+
+
 @app.route('/') 
-def mainpage():
-    return render_template('index.html')
+def mainpage(error=None):
+    print(error)
+    return render_template('main.html')
 
 @app.route('/result',methods=['POST','GET'])
 def resultpage():
@@ -21,7 +39,7 @@ def resultpage():
 
 # 드라이버 생성
 # chromedriver 설치된 경로를 정확히 기재해야 함
-    chromedriver ="C:\Users\python\Webdriver/chromedriver.exe" 
+    chromedriver ="C:/Users/python/Webdriver/chromedriver.exe"      
     # headless_options = webdriver.ChromeOptions() 
 
     #옵션을 넣어서 좀더 사용자가 웹브라우저를 들어가는 것 처럼 
@@ -44,30 +62,42 @@ def resultpage():
     #검색 창에 미리 써있는 내용들 지워줌 
     id_section.clear()
     #검색할 내용 전송 (키 이벤트)
-    id_section.send_keys("yd_w_sang") 
+    id_section.send_keys(Id) 
 
     pw_section = driver.find_element_by_name('password')
     pw_section.clear() 
 
-    pw_section.send_keys("Hje5227070!") 
-    pw_section.send_keys(Keys.RETURN)
+    pw_section.send_keys(passwd) 
+    try : 
+        pw_section.send_keys(Keys.RETURN)
+    except Exception as e:
+        print(e)
+        return redirect(url_for('mainpage')) 
+
     # 엔터 입력  
     time.sleep(3)
-
-
     #계정 이메일로 수정 요망
-    driver.get('https://www.instagram.com/yd_w_sang/followers/')  
-    time.sleep(3)
+    try : 
+        driver.get('https://www.instagram.com/%s/followers/' % Id)  
+        time.sleep(3)
 
-    #계정의 팔로우, 팔로잉 수 가져오기  
-    follow = driver.find_elements_by_css_selector('ul>li> a > span')
-    follow_number_list = []
+        #계정의 팔로우, 팔로잉 수 가져오기  
+        follow = driver.find_elements_by_css_selector('ul>li> a > span')
+        follow_number_list = []
+        for i in follow :
+            follow_number_list.append(i.text) 
+        follow_number = follow_number_list[0] 
+        following_number = follow_number_list[1] 
+    
+    except Exception as e:
+        print(e)
+        return redirect(url_for('mainpage',error='error')) 
+    
 
-    for i in follow :
-        follow_number_list.append(i.text) 
+
+    
         
-    follow_number = follow_number_list[0] 
-    following_number = follow_number_list[1] 
+    
     print(follow_number)
     print(following_number)
 
@@ -84,7 +114,6 @@ def resultpage():
     print(followersList) 
     numberOfFollowersInList = len(followersList.find_elements_by_css_selector('div li.wo9IH')) 
     
-
     #아래로 스크롤을 내릴 수 있도록 스페이스키 동작시킴
     followersList.click()
     time.sleep(2)
@@ -120,13 +149,15 @@ def resultpage():
     try :
         xbutton=driver.find_element_by_css_selector("body > div.RnEpo.Yx5HN > div > div > div:nth-child(1) > div > div:nth-child(3) > button > div > svg")
         xbutton.click() 
-        driver.get("https://www.instagram.com/yd_w_sang/")
+        driver.get("https://www.instagram.com/%s/" % Id)
         print("URL successfully Accessed")
         time.sleep(2)
     except TimeoutException as e:
-        print("Page load Timeout Occured. Quiting !!!")
+        print(e,"Page load Timeout Occured. Quiting !!!")
         driver.quit()
-    
+    except : 
+        print('에러 발생')
+        return redirect(url_for('mainpage','error'))
         
     print("넘어감") 
     followingLink = driver.find_elements_by_css_selector('header section ul li a') 
@@ -150,11 +181,9 @@ def resultpage():
         numberOfFollowersInList = len(driver.find_elements_by_css_selector("li.wo9IH" )) 
         if numberOfFollowersInList == 24 :
             followingList.click() 
-            
-            
         
         #숫자 갱신  
-    #  followersList.click()
+        #  followersList.click()
         numberOfFollowingsInList = len(followingList.find_elements_by_css_selector('li')) 
         if numberOfFollowingsInList == 24 :
             followingList.click()
@@ -175,17 +204,15 @@ def resultpage():
 
     same_membersName = set(followersName) & set(followingsName)
     only_membersName = set(followingsName) - set(same_membersName)
-    print(list(only_membersId))  
-    print(list(only_membersName))
-
-    ziplist = zip(list(only_membersId),list(only_membersName)) 
-    print(ziplist)
-
+    if len(list(only_membersId)) == 0 or len(list(only_membersName)) == 0 : 
+        ziplist = zip(list(only_membersId),list(only_membersName)) 
+        return redirect(url_for('mainpage'))
+        
     return render_template("result.html" , ziplist=ziplist)
          
 
 if __name__ == '__main__':
-    app.run()  
+    app.run(port=8080)  
 
 
 
