@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인스타그램 분석기</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='../static/index.css')}}">  -->
+    <link rel="stylesheet" href='../static/css/index.css'>
+    <link rel="stylesheet" href='../static/css/style.css'>
+    <script src='../static/ts/src/index.js' defer></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> 
+</head>
+
+<body>
+    <div class="content-wrapper">
+        <section class="main-content">
+            <article class="top-atc">
+                <div class="logo" style="display:inline-block">인스타그램 로고</div>
+                <p style="font-family: 'Yellowtail', cursive; font-size: 30px; margin-bottom:0">Instagram Analyzer
+                <p>
+            </article>
+            <article class="form-content">
+                <form class="input-contents"  method="POST" autocomplete="off">
+                    <div class="input-items">
+                        <span class="placeholder id-holder">전화번호, 사용자 이름 또는 이메일</span>
+                        <input type="text" class="form-control Id" name="Id" id="exampleInputEmail1">
+                    </div>
+                    <div class="input-items">
+                        <span class="placeholder pw-holder">비밀번호</span>
+                        <input type="password" class="form-control Passwd" name="passwd" id="exampleInputPassword1">
+                    </div>
+                    <button type="button" class="form-submit">로그인</button>
+                </form>
+            </article>
+            <article>
+                <article class="profile hide">
+                    <div class="pf-wrapper">
+                        <div class='pf-left'>
+                            <div class="pf-img">
+                                <img class="user-img"
+                                    src=""
+                                    >
+                            </div>
+                        </div>
+                        <div class="pf-right">
+                            <div class="pf-name">
+                            </div>
+                            <div class="pf-des-wrapper">
+                                <div class="pf-des">
+                                    <div class="des-title">
+                                        게시물
+                                    </div>
+                                    <div class="des-content-1 des-content"></div>
+                                </div>
+                                <div class="pf-des">
+                                    <div class="des-title">
+                                        팔로워
+                                    </div>
+                                    <div class="des-content-2 des-content"></div>
+                                </div>
+                                <div class="pf-des">
+                                    <div class="des-title">
+                                        팔로잉
+                                    </div>
+                                    <div class="des-content-3 des-content"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="next-btn hide">
+                    <p>1 개의 계정을 찾았습니다.</p>
+                    <button class='progress-btn'>계속 진행하기</button>
+                </article>
+            </article>
+            <article class="loader-atc hide">
+                <div class="loading-text">
+                    <span style="font-family: 'Do Hyeon', sans-serif;">Loading</span>
+                    <span class="dot">.</span>
+                    <span class="dot">.</span>
+                    <span class="dot">.</span>
+                </div>
+                <div class="progress-bar" style="overflow: hidden;">
+                    <div class="done-bar">
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+</body>
+</html>
