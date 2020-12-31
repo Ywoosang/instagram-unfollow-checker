@@ -1,0 +1,273 @@
+.content-wrapper{
+    height: 100vh;
+    display: flex;
+    justify-content : center;
+    align-items: center;
+}
+.main-content {
+    text-align: center;
+    width : 600px;
+    height : 700px;
+    background-color:#FFFFFF ;
+    border: 1px solid #dbdbdb;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.top-atc{
+    text-align: center;
+}
+.logo {
+    width : 7rem;
+    height: 5rem; 
+    background-image: url('../img/instagram-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding-left: 3rem;
+    color:transparent;
+    margin-top: 1rem;
+}
+.input-items{
+    margin : 1rem;
+    height:3rem;
+    width : 23rem; 
+    background : #fafafa; 
+    overflow: hidden;
+    position: relative;
+}
+.input-items .placeholder, .input-items .form-control, .input-items .show-passwd{
+    margin:0;
+    top: 0.5rem;
+    box-sizing: border-box; 
+    position :absolute;
+    left:0;
+    width: 23rem;
+}
+.input-items .placeholder{
+    color : rgb(141, 141, 141);
+    font-size : 1.2rem;
+    text-align: left;
+    pointer-events: none;
+    z-index: 1;
+    height: 2rem;
+    line-height: 2rem;
+    margin-left: 5px;
+    font-size: 1rem;
+    transition: 0.1s;
+}
+.input-items .onPlaceholder{
+    top: -5px;
+    font-size: 0.8rem; 
+}
+
+.input-items .form-control{
+    
+    background : #fafafa; 
+    height: 2rem;
+    font-size: 1.2rem;
+}
+.input-items .onInput{
+    top:1rem;
+}
+.form-submit{
+    margin-top: 1rem;
+    width : 23rem;
+    background-color: #B2DFFC;
+    height:3rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+.onButton{
+    background-color: #0095F6;
+}
+.input-items .show-passwd{
+    text-align: right;
+    width : 130px;
+    left : 15rem; 
+    font-weight: bold;
+    line-height: 2rem;
+    font-size: 1.1rem;
+    padding-right: 0.8rem;
+    cursor: pointer;
+}
+.loader-atc{
+    height: 90px;
+    width : 23rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.progress-bar{
+    background-color:#d8d8d8;  
+    height: 30px;
+    width : 300px;
+    border-radius:20px;
+}
+.progress-btn{
+    margin-top: 1rem;
+    width : 23rem;
+    background-color:  #B2DFFC;
+    height:3rem;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.progress-btn:hover {
+    background-color: #0095F6;
+}
+
+
+.done-bar{
+    background-color : #24e53e;
+    width : 0;
+    height: inherit;
+    border-radius:20px;
+}
+.loading-text{
+    width: inherit;
+    text-align: center;
+}
+.dot{
+    color :rgb(141, 141, 141);
+}
+.hide{
+    display:none; 
+}
+.show{
+    display:block; 
+}
+.pf-wrapper{
+    text-align: center; 
+    width : 27rem;
+    height: 10rem;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    background-color: #FAFAFA; 
+    transition: 0.5s;
+}
+.pf-left{
+    width : 9rem;
+    height: 9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pf-img{
+    width : 8rem;
+    height : 8rem;
+    border-radius: 50%;
+    overflow: hidden; 
+}
+.user-img{
+    object-fit: contain; 
+}    
+.user-no-img{
+    position:relative;
+    left : -8px;
+
+}
+.pf-right{
+    display: flex;
+    width : 17rem;
+    height: 9rem;
+    flex-direction: column;
+}
+.pf-name{
+    line-height: 3rem; 
+    width: inherit;
+    height: 3rem;
+    font-size: 1.3rem;
+    font-weight: bold; 
+}
+.pf-des-wrapper{
+    
+    height: 6rem; 
+    display: flex; 
+}
+.pf-des{
+    width: 33.3%;
+    height: 6rem;
+   
+}
+.des-title{
+    height: 2rem;
+}
+.des-content{
+    font-size: 23px;
+    font-weight: 600; 
+}
+/* 넘어가는 부분  */
+.next-btn{
+    width : 27rem;
+    text-align: center; 
+    transition: 0.5s;
+}
+.profile{
+    transition : 0.4s;
+    height: 162px; 
+}
+
+.resolved{
+    display:flex; 
+    flex-wrap: wrap;
+    z-index: 1001;
+    width : 50vw;
+    height: 800px; 
+    background-color: white;
+    box-shadow: 4px 4px 4px rgba(105, 66, 66, 0.44); 
+    /* overflow: scroll;  if too many content will given*/
+    transition: 0.5s;
+}
+.margin{
+    margin: 10px;
+    width : 27rem; 
+    box-shadow: 3px 3px 3px #ddd; 
+} 
+
+.pf-id{ 
+    width: inherit;
+    padding-bottom: 19px;
+    font-size: 1.9rem;
+    font-weight: bold; 
+} 
+
+.des-title{
+    height: 2rem;
+}
+.des-content{
+    font-size: 23px;
+    font-weight: 600; 
+}
+.uf-name{
+    width : 8rem; 
+}
+.pf-go{
+    width : 9rem;
+}
+.pf-go-btn{
+    font-size: 40px; 
+    cursor: pointer;
+}
+.insta-icon{
+    font-size: 55px;
+    font-weight: bold; 
+    margin-top: 5px; 
+    color: mediumvioletred;
+    pointer-events: none; 
+}
+.bold{
+    font-weight: bold; 
+}
+/* .white{
+    background-color: white; 
+} */
+.full-width{
+    width : 700px !important;
+    transition: 1s; 
+}
