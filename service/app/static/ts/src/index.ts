@@ -40,9 +40,15 @@ userPasswd.addEventListener('keyup', changeBtnColor);
 userPasswd.addEventListener('keyup', showPasswd);
 
 // interfaces   
+interface UserInfo{
+    Id : string;
+    passwd: string; 
+}
+
 interface elems {
     [index: number]: HTMLElement;
 }
+
 interface ProfileServerResponse {
     img: string;
     name: string;
@@ -50,6 +56,7 @@ interface ProfileServerResponse {
     follower: string;
     following: string;
 }
+
 interface CrawlServerResponse {
     id: string;
     name: string;
@@ -60,27 +67,27 @@ interface CrawlServerResponse {
 // functions 
 
 /**
-* 인스타그램 로그인창 구현 
-*
-* hasClass 
-* 해당 요소가 onInput 클래스를 포함하고 있는지 여부 반환하는 함수 
-* @ param html element 
-* @ return boolean 포함 여부 
-* 
-* checkIdClass
-* 아이디 입력창에 글이 있다면 onInput,onPlaceholder 클래스 추가, 없다면 제거하는 함수 
-* @ param Event 키보드 입력 이벤트 
-*
-* checkPasswdClass
-* 비밀번호 입력창에 글이 있다면 onInput,onPlaceholder 클래스 추가, 없다면 제거하는 함수 
-* @ param Event 키보드 입력 이벤트   
-*  
-* changeBtnColor 
-* 비밀번호 6자 이상, 아이디 1자 이상 로그인 조건 만족시켰을 때, 버튼색 변경하는 함수  
-*
-* showPasswd 
-* 비밀번호 보기 또는 숨기기를 눌렀을 때 비밀번호 표시 여부를 바꾸는 함수 
-* @ param Event 클릭 이벤트 
+ * 인스타그램 로그인창 구현 
+ *
+ * hasClass 
+ * 해당 요소가 onInput 클래스를 포함하고 있는지 여부 반환하는 함수 
+ * @ param html element 
+ * @ return boolean 클래스 포함 여부 
+ * 
+ * checkIdClass
+ * 아이디 입력창에 글이 있다면 onInput,onPlaceholder 클래스 추가, 없다면 제거하는 함수 
+ * @ param Event 키보드 입력 이벤트 
+ *
+ * checkPasswdClass
+ * 비밀번호 입력창에 글이 있다면 onInput,onPlaceholder 클래스 추가, 없다면 제거하는 함수 
+ * @ param Event 키보드 입력 이벤트   
+ *  
+ * changeBtnColor 
+ * 비밀번호 6자 이상, 아이디 1자 이상 로그인 조건 만족시켰을 때, 버튼색 변경하는 함수  
+ *
+ * showPasswd 
+ * 비밀번호 보기 또는 숨기기를 눌렀을 때 비밀번호 표시 여부를 바꾸는 함수 
+ * @ param Event 클릭 이벤트 
 */  
 function hasClass(element: HTMLInputElement): boolean {
     if (element.classList.contains('onInput')) {
@@ -150,9 +157,10 @@ function showPasswd(e: Event): void {
 }
 
 /**  
-* 로딩시 움직이는 점 만드는 구현 
-*  
-*  setLoadingDot  
+ * 로딩시 애니메이션 구현 
+ *  
+ * setLoadingDot  
+ * 크롤링 진행시 로딩중 표시 애니메이션 만드는 함수
 */ 
 setInterval(() => {
     var another: number = setLoadingDot(count);
@@ -198,12 +206,21 @@ function progressBar(): void {
     },delayTime)
 }
 
+
 /**
-* 서버에서 로그인 시도한 사용자 이미지, 이름, 게시물수, 팔로워수, 팔로잉수 가져옴 
+ * sumbit 이벤트 발생시 크롤링 시작후 프로필정보 설정
+ * 
+ * startCrawl 
+ * 서버에 사용자 아이디, 비밀번호 전송 후 입력창 부분 진행바로 전환하는 함수 
+ *  
+ * reqeustProfile 
+ * 서버에서 사용자 프로필 이미지, 이름, 게시물수, 팔로워수, 팔로잉수 가져오고  
+ * DOM 에 해당 정보를 설정하는 함수 
+ * 
 */
 function makeProfile(): void {
     let url = `${window.origin}/response/set`
-    let data: object = {
+    let data: UserInfo = {
         Id: userId.value,
         passwd: userPasswd.value
     }
@@ -215,7 +232,7 @@ function makeProfile(): void {
       // 크롤링 도중 오류 발생 혹은 사용자가 아이디,비밀번호 잘못입력  
     fetch(url, {
         method: 'POST',
-        body: JSON.stringify(data), // data can be `string` or {object}
+        body: JSON.stringify(data), 
         headers: {
             'Content-Type': 'application/json'
         }
@@ -233,14 +250,6 @@ function makeProfile(): void {
         requestProfile();
     })
 }
-
-/**
-* requestProfile 
-* 
-* 
-* @ exception 예외사항
-*/ 
-
 function requestProfile(): void {
     let url = `${window.origin}/response/crawl/profile`;
     fetch(url, {
@@ -273,13 +282,30 @@ function requestProfile(): void {
         });
 
 }
-// 버튼 클릭하면 시작 
+
 /**
-*  startCrawl
-*  
-* @ param int a 메서드의 파라미터 설명
-* @ return 반환하는 것 설명
-* @ exception 예외사항
+ * click 이벤트 발생 시 사용자 크롤링 마무리, DOM 에 정보 표시 
+ * 
+ * startCrawl 
+ * 나머지 함수 호출, DOM 정보 설정하는 함수 
+ *  
+ * reqeustCrawl 
+ * 서버에 팔로워, 팔로잉 크롤링 시작하도록 명령하고, 완료시 
+ * 해당 정보를 받아 DOM 제작후 그곳에 설정하는 함수
+ * @ return CrawlServerResponse[] 서버에서 받아온 언팔로워들 프로필 정보
+ *  
+ * makeResultDom
+ * 사용자 프로필마다 제작된 DOM 리스트를 받아 하나로 묶어서 반환하는 함수
+ * @ param CrawlServerResponse[] 서버에서 받아온 언팔로워들 프로필 정보  
+ * @ return HTMLElement 사용자 프로필이 제작된 article 태그
+ * 
+ * makeProfileDom
+ * 사용자 프로필 정보를 담고 있는 DOM 요소를 만드는 함수 
+ * @ param string id  언팔로워 아이디 
+ * @ param string name 언팔로워 이름
+ * @ param string img  언팔로워 프로필 이미지 
+ * @ param string link 언팔로워 계정 링크
+ * @ return HTMLElement 언팔로워들 프로필 저장된 section 태그 
 */
 
 async function startCrawl(e: Event) {
@@ -291,9 +317,7 @@ async function startCrawl(e: Event) {
     progressBar();
     try{
         const response:CrawlServerResponse[] =  await requestCrawl();  
-        console.log('완료 전',done);
-        done = true; 
-        console.log('완료',done);
+        window.done = true; 
         doneBar.classList.add('full-width'); 
         console.log(doneBar.style.width); 
         setTimeout(()=> {
@@ -304,14 +328,6 @@ async function startCrawl(e: Event) {
         alert(error);
     }
 }
-/**
-* 메서드의 기능을 설명 중이다.. 간략하게 적을 것.
-* 
-* @ param int a 메서드의 파라미터 설명
-* @ return 반환하는 것 설명
-* @ exception 예외사항
-*/
-
  
 async function requestCrawl(): Promise<CrawlServerResponse[]> {
     let url = `${window.origin}/response/crawl/unfollower`;
@@ -333,13 +349,6 @@ async function requestCrawl(): Promise<CrawlServerResponse[]> {
         });
     return  ServerData; 
 }
-/**
-* 메서드의 기능을 설명 중이다.. 간략하게 적을 것.
-* 
-* @ param int a 메서드의 파라미터 설명
-* @ return 반환하는 것 설명
-* @ exception 예외사항
-*/
 
 function makeResultDom(response: CrawlServerResponse[]) {
     const section = document.createElement('section');
