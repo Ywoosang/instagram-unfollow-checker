@@ -10,7 +10,8 @@ from flask import (
     redirect,
     url_for,
     )
-from app.flask_views import crawl 
+
+from . import crawl 
 
 view = Blueprint('view',__name__,url_prefix='/')
 
